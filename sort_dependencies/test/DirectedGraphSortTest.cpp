@@ -82,6 +82,7 @@ TEST(topology_sort, test_example_case) {
                                    {7, 5, 6, 3, 2, 4, 1, 0}};
 
     DirectedGraph graph(edges, sizeof(edges)/sizeof(edges[0]));
+    //graph.printGraph(); // to check the graph is created correctly
     auto v = graph.topologySort();
     bool solutionFound = false;
 
