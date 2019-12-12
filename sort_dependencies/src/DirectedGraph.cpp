@@ -29,9 +29,34 @@ void DirectedGraph::printGraph() {
     }
 }
 
+// https://www.geeksforgeeks.org/cpp-program-for-topological-sorting/
+// used this link as a reference for this function
+void DirectedGraph::topologySort(int val, LinkedStack<int> &sorted, set<int> &visited) {
+    visited.insert(val);
+    if (nodes.at(val) == nullptr) {
+        return;
+    }
+    for (SingleLinkedList<int>::Iterator it = nodes.at(val)->begin(); it != nodes.at(val)->end(); it++) {
+        if (!visited.count(*it)) {
+            topologySort(*it, sorted, visited);
+        }
+    }
+    sorted.push(val);
+}
+
 vector<int> *DirectedGraph::topologySort() {
-	// homework
-	// the return here is a placeholder. replace with your own code 
-	return new vector<int>();
+    set<int> visited;
+    LinkedStack<int> sorted;
+    for (map<int, SingleLinkedList<int> *>::iterator it = nodes.begin(); it != nodes.end(); it++) {
+        if (!visited.count(it->first)) {
+            topologySort(it->first, sorted, visited);
+        }
+    }
+    vector<int>* ans = new vector<int>();
+    while (!sorted.isEmpty()) {
+        ans->push_back(sorted.peek());
+        sorted.pop();
+    }
+    return ans;
 }
 
